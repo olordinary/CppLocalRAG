@@ -12,6 +12,8 @@
 
 namespace {
 using StmtPtr = std::unique_ptr<sqlite3_stmt, decltype(&sqlite3_finalize)>;
+constexpr const char* kAppDataSubDir = "CppLocalRAG";
+constexpr const char* kDbFileName = "cpplocalrag.sqlite";
 
 QString sqliteError(sqlite3* db, const QString& context) {
     const char* err = db ? sqlite3_errmsg(db) : "Unknown sqlite error";
@@ -31,15 +33,15 @@ DatabaseManager::~DatabaseManager() {
 //数据库初始化，创建应用数据目录和数据库文件，并创建 documents 表
 void DatabaseManager::initialize() {
     // 创建应用数据目录
-    // 在当前设备上，解析出的数据路径为：C:\Users\olord\AppData\Roaming\OfflineKB
+    // 在当前设备上，解析出的数据路径为：C:\Users\olord\AppData\Roaming\CppLocalRAG
     const QString appDataDir =
-        QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/OfflineKB";
+        QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/" + kAppDataSubDir;
     QDir dir;
     if (!dir.mkpath(appDataDir)) {
         throw std::runtime_error(("Cannot create app data directory: " + appDataDir).toStdString());
     }
     // 最终生成的数据库文件路径
-    dbFilePath_ = appDataDir + "/offlinekb.sqlite";
+    dbFilePath_ = appDataDir + "/" + kDbFileName;
 
     // 打开数据库（如果文件不存在会自动创建）
     const QByteArray dbPathUtf8 = dbFilePath_.toUtf8();

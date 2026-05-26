@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.20)
 
-project(OfflineKB LANGUAGES CXX)
+project(CppLocalRAG LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -12,7 +12,7 @@ set(CMAKE_AUTORCC ON)
 find_package(Qt6 REQUIRED COMPONENTS Core Widgets Sql)
 find_package(SQLite3 REQUIRED)
 
-add_executable(OfflineKB
+add_executable(CppLocalRAG
     main.cpp
 
     include/mainwindow.h
@@ -38,7 +38,7 @@ add_executable(OfflineKB
     resources/dict.qrc
 )
 
-target_include_directories(OfflineKB PRIVATE
+target_include_directories(CppLocalRAG PRIVATE
     include
     third_party/hnswlib
     third_party/hnswlib/hnswlib
@@ -47,7 +47,7 @@ target_include_directories(OfflineKB PRIVATE
     third_party/cppjieba/limonp/include
 )
 
-target_link_libraries(OfflineKB PRIVATE
+target_link_libraries(CppLocalRAG PRIVATE
     Qt6::Core
     Qt6::Widgets
     Qt6::Sql

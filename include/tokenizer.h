@@ -15,6 +15,7 @@ public:
     ~Tokenizer();
 
     std::vector<std::string> tokenize(const std::string& text) const;
+    void loadStopWords(const std::string& stopWordPath);
 
 private:
     std::unique_ptr<cppjieba::Jieba> jieba_;
